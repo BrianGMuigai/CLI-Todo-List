@@ -1,8 +1,8 @@
-from datetime import datetim
+from datetime import datetime
 
 class Task:
 
-    def __ini(self, task_id: int, description: str):
+    def __init__(self, task_id: int, description: str):
 
         self.id = task_id
         self.description = description
@@ -31,4 +31,4 @@ class Task:
     def __str__(self) -> str:
 
         status = "✓" if self.completed else "○"
-    return f"[{status}] #{self.id:03d} {self.description} ({self.created_at})"
+        return f"[{status}] #{self.id:03d} {self.description} ({self.created_at})"

@@ -24,7 +24,7 @@ def read_int (prompt: str) -> int:
       try:
         return int (input(prompt).strip())
       except ValueError:
-        print(" [!] Please enter a whole number.")
+        pritn(" [!] Please enter a whole number.")
 
 
 def read_text(prompt: str) -> str:
@@ -33,7 +33,7 @@ def read_text(prompt: str) -> str:
         value =  input(prompt).strip()
         if value: 
             return value
-        print (" [!] Input cannot be empty")
+    print (" [!] Input cannot be empty")
 
 def action_add(manager : TaskManager):
     description = read_text(" Task  description: ")
@@ -60,7 +60,7 @@ def action_complete(manager: TaskManager):
 
     try:
        task = manager.complete_task(task_id)
-       print(f" [✓] Completed: {task}")
+       print(f" [✓] Completed: {tasks}")
     except ValueError as e:
        print(f" [!] {e}")
 

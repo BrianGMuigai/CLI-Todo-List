@@ -1,12 +1,12 @@
 import json
 import os
-from task import Task 
+from task import Task
 
 class TaskManager:
 
     DEFAULT_FILE = "tasks.json"
 
-    def__init__(self, filepath: str = DEFAULT_FILE):
+    def __init__(self, filepath: str = DEFAULT_FILE):
 
         self.filepath = filepath
         self.tasks =[]
@@ -18,41 +18,40 @@ class TaskManager:
         """Load tasks from the JSON file into self.tasks."""
 
         if not os.path.exists(self.filepath):
-            return
+           return
+ 
 
+        with open(self.filepath, "r") as f:
 
-       with open(self.filepath, "r") as f:
-
-        data = json.load(f)
+             data = json.load(f)
 
 
         self.tasks = [ Task.from_dict(item) for item in data]
 
-       if self.tasks:
+        if self.tasks:
 
-       self._next_id = max(self.tasks, key= lambda t: t.id).id + 1 
+           self._next_id = max(self.tasks, key= lambda t: t.id).id + 1 
 
     def _save(self):
         """Saves all tasks to the JSON file."""
 
 
-        with open(self.filepath, "w" ) as f :
+        with open(self.filepath, "w" ) as f:
 
-            json.dump([task.to_dict() for task in self.tasks], f, indent=2)
+             json.dump([task.to_dict() for task in self.tasks], f, indent=2)
 
-    def add_task(self, description: str) -> Task:
-         """Create a new task, add it to the list, save, return it."""
+    def add_task(self, description: str) -> Task: 
+        """Create a new task, add it to the list, save, return it."""
 
-    if not description.strip():
-
-        raise ValueError("Task description cannot be empty.")
+        if not description.strip():
+            raise ValueError("Task description cannot be empty.")
 
         new_task = Task(self._next_id, description.strip())
 
         self.tasks.append(new_task)
 
         self._next_id +=1
-        self.save()
+        self._save()
         return new_task
 
     def complete_task(self, task_id: int) -> Task:
@@ -71,7 +70,7 @@ class TaskManager:
         return task
 
 
-   def delete_task(self, task_id: int ) -> Task:
+    def delete_task(self, task_id: int ) -> Task:
         """Remove a task permanetly."""
 
         task = self ._find_by_id(task_id)
@@ -82,19 +81,19 @@ class TaskManager:
         self._save()
         return task
 
-  def list_tasks(self, show_completed: bool =True ) -> list:
+    def list_tasks(self, show_completed: bool =True ) -> list:
         """Return tasks, optionally filtering out completed ones. """
 
-       if show_completed:
+        if show_completed:
           return self.tasks
-       return [t for t in self.tasks if not t.completed]
+        return [t for t in self.tasks if not t.completed]
 
-    def pending _count(self) -> int:
+    def pending_count(self) -> int:
         """How many tasks are not yet completed."""
 
-       return sum(1 for t in self.tasks if not t.completed)
+        return sum(1 for t in self.tasks if not t.completed)
 
-   def _find_by_id(self, task_id: int):
+    def _find_by_id(self, task_id: int):
         """Return the Task with id, or None if not found."""
 
         return next((t for t in self.tasks if t.id == task_id), None)
